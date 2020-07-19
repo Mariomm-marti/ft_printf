@@ -1,0 +1,4 @@
+**/tests/*
+**/segf.c
+**/.vscode
+main.c
