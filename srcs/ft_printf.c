@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/28 02:13:08 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/20 07:30:16 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/20 08:29:52 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ static int	flag_handle(char const *form, va_list args, t_flag *flag)
 		flag->align = 1;
 		flag->width = -flag->width;
 	}
-	if (*form >= '1' && *form <= '9' && *(form - 1) == '.')
+	if (*form >= '0' && *form <= '9' && *(form - 1) == '.')
 		return (ft_countdigits(flag->prec = ft_atoi(form)) - 1);
 	if (*form >= '1' && *form <= '9')
 		return (ft_countdigits(flag->width = ft_atoi(form)) - 1);
