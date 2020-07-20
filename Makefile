@@ -6,7 +6,7 @@
 #    By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/03/28 02:06:40 by mmartin-          #+#    #+#              #
-#    Updated: 2020/07/18 07:05:34 by mmartin-         ###   ########.fr        #
+#    Updated: 2020/07/20 06:39:07 by mmartin-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ OBJS	= ${SRCS:.c=.o}
 NAME	= libftprintf.a
 
 %.o : %.c
-			@clang -Wall -Werror -Wextra -I $(PRINT_I) -I $(LIBFT_I) -c $< -o $@
+			@clang -Wall -Werror -Wextra -I $(PRINT_I) -I $(LIBFT_I) -c $< -o $@ -O3 -march=skylake
 
 $(NAME):	$(OBJS)
 			@make -s -C $(LIBFT_D) bonus

@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/28 02:24:47 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/19 00:11:53 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/20 07:30:31 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # ifndef FT_PRINTF_MAXL
 #  define FT_PRINTF_MAXL 8192
 # endif
+
+# include <unistd.h>
+# include <stdarg.h>
 
 # pragma pack(1)
 

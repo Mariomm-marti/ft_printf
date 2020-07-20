@@ -6,31 +6,16 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/28 02:13:08 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/20 05:32:07 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/20 07:30:16 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
 #include "libft/includes/libft.h"
-#include <stdio.h>
-#include <unistd.h>
-#include <stdarg.h>
 
-// static void	display_attr(t_flag const *flag)
-// {
-// 	static int	call_time = 0;
-
-// 	printf("\n--- [ FLAG ID %d ] ---\n", call_time);
-// 	printf("%-15s:%d\n", "> WIDTH", flag->width);
-// 	printf("%-15s:%d\n", "> PRECISION", flag->prec);
-// 	printf("%-15s:%d\n", "> ALIGN", flag->align);
-// 	printf("%-15s:%d\n", "> ZERO", flag->zero);
-// 	printf("%-15s:%d\n", "> SHARP", flag->sharp);
-// 	printf("%-15s:%d\n", "> SPACE", flag->space);
-// 	printf("%-15s:%d\n", "> PLUS", flag->plus);
-// 	printf("--- [ FLAG ID %d ] ---\n", call_time);
-// 	call_time++;
-// }
+/*
+** Converts ptr literal integer _num_ to it HEX value
+*/
 
 static int	convert_addr(char *out, unsigned long int num)
 {
@@ -44,6 +29,10 @@ static int	convert_addr(char *out, unsigned long int num)
 	return (conv_length + 1);
 }
 
+/*
+** Handles requests for format %c with it respective flags
+*/
+
 static int	char_handle(char *out, t_flag const *flag, char const chr)
 {
 	int	sent;
@@ -56,6 +45,10 @@ static int	char_handle(char *out, t_flag const *flag, char const chr)
 		*(out + sent++) = ' ';
 	return (sent);
 }
+
+/*
+** Handles requests for format %s with it respective flags
+*/
 
 static int	string_handle(char *out, t_flag const *flag, char const *str)
 {
@@ -77,12 +70,16 @@ static int	string_handle(char *out, t_flag const *flag, char const *str)
 	return (sent);
 }
 
+/*
+** Handles requests for format %s with it respective flags
+*/
+
 static int	ptr_handle(char *out, t_flag *flag, void *ptr)
 {
 	int		sent;
 	int		precptr;
 	int		prec_length;
-	
+
 	sent = 0;
 	prec_length = flag->zero && flag->prec < 0 ? flag->width - 14 : 0;
 	prec_length = flag->prec >= 0 ? flag->prec - 12 : prec_length;
@@ -121,14 +118,17 @@ static int	flag_handle(char const *form, va_list args, t_flag *flag)
 		return (ft_countdigits(flag->width = ft_atoi(form)) - 1);
 	if (*form == '-' && !(flag->zero = 0))
 		flag->align = 1;
-	if (*form == '#')
-		flag->sharp = 1;
 	if (*form == '+' && !(flag->space = 0))
 		flag->plus = 1;
+	flag->sharp = *form == '#' ? 1 : flag->sharp;
 	flag->zero = *form == '0' && !flag->align ? 1 : flag->zero;
 	flag->space = *form == ' ' && !flag->plus ? 1 : flag->space;
 	return (0);
 }
+
+/*
+**	Handles requests for flag ending and writing result out
+*/
 
 static int	type_handle(char *out, char const type, va_list args, t_flag *flag)
 {
@@ -140,6 +140,11 @@ static int	type_handle(char *out, char const type, va_list args, t_flag *flag)
 		return (ptr_handle(out, flag, va_arg(args, void *)));
 	return (-FT_PRINTF_MAXL);
 }
+
+/*
+**	Creates a workflow for _form_ analyzing. To diagnose errors it will
+**	return a negative number
+*/
 
 static int	sprintf_wrapper(char *out, char const *form, va_list args)
 {
