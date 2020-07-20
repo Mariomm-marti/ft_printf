@@ -2,3 +2,4 @@
 **/segf.c
 **/.vscode
 main.c
+*.out
