@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/28 02:24:47 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/20 07:30:31 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/21 22:53:40 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct		s_flag
 {
 	int				width;
 	int				prec;
-	unsigned char	align : 1;
+	unsigned char	left : 1;
 	unsigned char	zero : 1;
 	unsigned char	sharp : 1;
 	unsigned char	space : 1;

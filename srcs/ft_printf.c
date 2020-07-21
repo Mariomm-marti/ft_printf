@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/28 02:13:08 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/20 08:29:52 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/21 23:13:17 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ static int	convert_addr(char *out, unsigned long int num)
 {
 	unsigned int const	conv_length = ft_logn(16, num);
 
+	if (num == 0 && (*out = '0'))
+		return (1);
 	while (num > 0)
 	{
 		*(out-- + conv_length) = "0123456789abcdef"[num % 16];
@@ -38,7 +40,7 @@ static int	char_handle(char *out, t_flag const *flag, char const chr)
 	int	sent;
 
 	sent = 0;
-	while ((!flag->align || flag->zero) && sent < flag->width - 1)
+	while ((!flag->left || flag->zero) && sent < flag->width - 1)
 		*(out + sent++) = flag->zero ? '0' : ' ';
 	*(out + sent++) = chr;
 	while (sent < flag->width)
@@ -57,15 +59,17 @@ static int	string_handle(char *out, t_flag const *flag, char const *str)
 	int	prec_length;
 
 	sent = 0;
+	if (!str)
+		str = "(null)";
 	prec_length = ft_strlen(str);
 	if (flag->prec >= 0)
 		prec_length = flag->prec > prec_length ? prec_length : flag->prec;
-	while (!flag->align && sent < flag->width - prec_length)
+	while (!flag->left && sent < flag->width - prec_length)
 		*(out + sent++) = flag->zero ? '0' : ' ';
 	strptr = 0;
 	while (*(str + strptr) && strptr < prec_length)
 		*(out + sent++) = *(str + strptr++);
-	while (flag->align && sent < flag->width)
+	while (flag->left && sent < flag->width)
 		*(out + sent++) = ' ';
 	return (sent);
 }
@@ -77,21 +81,21 @@ static int	string_handle(char *out, t_flag const *flag, char const *str)
 static int	ptr_handle(char *out, t_flag *flag, void *ptr)
 {
 	int		sent;
-	int		precptr;
-	int		prec_length;
+	int		sentptr;
 
 	sent = 0;
-	prec_length = flag->zero && flag->prec < 0 ? flag->width - 14 : 0;
-	prec_length = flag->prec >= 0 ? flag->prec - 12 : prec_length;
-	while (!flag->align && sent + prec_length + 14 < flag->width)
+	if (flag->zero && flag->prec < 0)
+		flag->prec = flag->width - 2;
+	while (!flag->left &&
+			sent < flag->width - 14 - (flag->prec >= 13 ? flag->prec - 12 : 0))
 		*(out + sent++) = ' ';
 	*(out + sent++) = '0';
 	*(out + sent++) = 'x';
-	precptr = -1;
-	while (++precptr < prec_length)
+	sentptr = -1;
+	while (++sentptr < (flag->prec > 12 ? flag->prec - 12 : 0))
 		*(out + sent++) = '0';
 	sent += convert_addr(out + sent, (unsigned long int)ptr);
-	while (flag->align && sent < flag->width)
+	while (flag->left && sent < flag->width)
 		*(out + sent++) = ' ';
 	return (sent);
 }
@@ -107,21 +111,23 @@ static int	flag_handle(char const *form, va_list args, t_flag *flag)
 		flag->prec = va_arg(args, int);
 		flag->prec = flag->prec < 0 ? -flag->prec : flag->prec;
 	}
-	if (*form == '*' && (flag->width = va_arg(args, int)) < 0)
+	else if (*form == '*' && (flag->width = va_arg(args, int)) < 0)
 	{
-		flag->align = 1;
+		flag->left = 1;
 		flag->width = -flag->width;
 	}
-	if (*form >= '0' && *form <= '9' && *(form - 1) == '.')
+	else if (*form >= '0' && *form <= '9' && *(form - 1) == '.')
 		return (ft_countdigits(flag->prec = ft_atoi(form)) - 1);
-	if (*form >= '1' && *form <= '9')
+	else if (*form >= '1' && *form <= '9')
 		return (ft_countdigits(flag->width = ft_atoi(form)) - 1);
-	if (*form == '-' && !(flag->zero = 0))
-		flag->align = 1;
-	if (*form == '+' && !(flag->space = 0))
+	else if (*form == '-' && !(flag->zero = 0))
+		flag->left = 1;
+	else if (*form == '+' && !(flag->space = 0))
 		flag->plus = 1;
+	else if (*form == '.')
+		flag->prec = 0;
 	flag->sharp = *form == '#' ? 1 : flag->sharp;
-	flag->zero = *form == '0' && !flag->align ? 1 : flag->zero;
+	flag->zero = *form == '0' && !flag->left ? 1 : flag->zero;
 	flag->space = *form == ' ' && !flag->plus ? 1 : flag->space;
 	return (0);
 }
@@ -165,7 +171,7 @@ static int	sprintf_wrapper(char *out, char const *form, va_list args)
 			*(out + printc++) = *form;
 		else if (ft_strchr("*- +.#0123456789", *form))
 			form += flag_handle(form, args, &flag);
-		else if ((printc += type_handle(out + printc, *form, args, &flag)) > 0)
+		else if ((printc += type_handle(out + printc, *form, args, &flag)))
 			is_flag = 0;
 		form++;
 	}
