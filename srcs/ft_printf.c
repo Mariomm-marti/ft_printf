@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/28 02:13:08 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/21 23:13:17 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/24 21:54:20 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "libft/includes/libft.h"
 
 /*
-** Converts ptr literal integer _num_ to it HEX value
+**	Converts ptr literal integer _num_ to it HEX value
 */
 
 static int	convert_addr(char *out, unsigned long int num)
@@ -32,7 +32,7 @@ static int	convert_addr(char *out, unsigned long int num)
 }
 
 /*
-** Handles requests for format %c with it respective flags
+**	Handles requests for format %c with it respective flags
 */
 
 static int	char_handle(char *out, t_flag const *flag, char const chr)
@@ -49,7 +49,7 @@ static int	char_handle(char *out, t_flag const *flag, char const chr)
 }
 
 /*
-** Handles requests for format %s with it respective flags
+**	Handles requests for format %s with it respective flags
 */
 
 static int	string_handle(char *out, t_flag const *flag, char const *str)
@@ -75,10 +75,14 @@ static int	string_handle(char *out, t_flag const *flag, char const *str)
 }
 
 /*
-** Handles requests for format %s with it respective flags
+**	Handles requests for format %s with it respective flags
+**	Some references related to absolute numbers that appear here:
+**	- 2 is the space that '0x' take
+**	- 12 is the length that an address has in HEX
+**	- 14 is the total length for 0x and the address in HEX
 */
 
-static int	ptr_handle(char *out, t_flag *flag, void *ptr)
+static int	ptr_handle(char *out, t_flag *flag, void const *ptr)
 {
 	int		sent;
 	int		sentptr;
@@ -87,7 +91,7 @@ static int	ptr_handle(char *out, t_flag *flag, void *ptr)
 	if (flag->zero && flag->prec < 0)
 		flag->prec = flag->width - 2;
 	while (!flag->left &&
-			sent < flag->width - 14 - (flag->prec >= 13 ? flag->prec - 12 : 0))
+			sent < flag->width - 14 - (flag->prec > 12 ? flag->prec - 12 : 0))
 		*(out + sent++) = ' ';
 	*(out + sent++) = '0';
 	*(out + sent++) = 'x';
@@ -109,7 +113,8 @@ static int	flag_handle(char const *form, va_list args, t_flag *flag)
 	if (*form == '*' && *(form - 1) == '.')
 	{
 		flag->prec = va_arg(args, int);
-		flag->prec = flag->prec < 0 ? -flag->prec : flag->prec;
+		flag->left = 1;
+		flag->prec = flag->prec < 0 ? 0 : flag->prec;
 	}
 	else if (*form == '*' && (flag->width = va_arg(args, int)) < 0)
 	{
@@ -171,8 +176,8 @@ static int	sprintf_wrapper(char *out, char const *form, va_list args)
 			*(out + printc++) = *form;
 		else if (ft_strchr("*- +.#0123456789", *form))
 			form += flag_handle(form, args, &flag);
-		else if ((printc += type_handle(out + printc, *form, args, &flag)))
-			is_flag = 0;
+		else if (!(is_flag = 0))
+			printc += type_handle(out + printc, *form, args, &flag);
 		form++;
 	}
 	*(out + printc) = 0;
