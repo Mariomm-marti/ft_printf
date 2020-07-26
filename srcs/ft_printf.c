@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/28 02:13:08 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/26 16:28:34 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/26 17:51:14 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,22 @@
 **	Converts ptr literal integer _num_ to it HEX value
 */
 
-static int	convert_addr(char *out, unsigned long int num)
+static int	convert_addr(char *out, unsigned long int num, unsigned int const l)
 {
-	unsigned int const	conv_length = ft_logn(16, num);
-
 	if (num == 0 && (*out = '0'))
 		return (1);
 	while (num > 0)
 	{
-		*(out-- + conv_length) = "0123456789abcdef"[num % 16];
+		*(out-- + l) = "0123456789abcdef"[num % 16];
 		num /= 16;
 	}
-	return (conv_length + 1);
+	return (l);
 }
+
+/*
+**	Mainly used for precision flag management, counts the number of zeros
+**	that should be skipped
+*/
 
 static int	zeroes(char const *in)
 {
@@ -96,19 +99,21 @@ static int	ptr_handle(char *out, t_flag *flag, void const *ptr)
 {
 	int		sent;
 	int		sentptr;
+	int		hexlen;
 
 	sent = 0;
+	hexlen = ft_logn(16, (unsigned long int)ptr) + 1;
 	if (flag->zero && flag->prec < 0)
 		flag->prec = flag->width - 2;
-	flag->prec = flag->prec > 12 ? flag->prec - 12 : 0;
-	while (!flag->left && sent < flag->width - 14 - flag->prec)
+	flag->prec = flag->prec > hexlen ? flag->prec - hexlen : 0;
+	while (!flag->left && sent < flag->width - hexlen - 2 - flag->prec)
 		*(out + sent++) = ' ';
 	*(out + sent++) = '0';
 	*(out + sent++) = 'x';
 	sentptr = -1;
 	while (++sentptr < flag->prec)
 		*(out + sent++) = '0';
-	sent += convert_addr(out + sent, (unsigned long int)ptr);
+	sent += convert_addr(out + sent, (unsigned long int)ptr, hexlen);
 	while (flag->left && sent < flag->width)
 		*(out + sent++) = ' ';
 	return (sent);
