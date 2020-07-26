@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/28 02:13:08 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/26 04:04:58 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/26 16:28:34 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,16 @@ static int	convert_addr(char *out, unsigned long int num)
 		num /= 16;
 	}
 	return (conv_length + 1);
+}
+
+static int	zeroes(char const *in)
+{
+	unsigned int	count;
+
+	count = 0;
+	while (*(in + count) == '0')
+		count++;
+	return (count);
 }
 
 /*
@@ -118,9 +128,9 @@ static int	int_handle(char *out, t_flag *flag, int num)
 	if (num < 0 && (num = -num))
 		sn = '-';
 	if (flag->zero && flag->prec < 0)
-		flag->prec = flag->width;
+		flag->prec = flag->width - 1;
 	flag->prec = flag->prec > nlen ? flag->prec - nlen + (sn == '-') : 0;
-	while (!flag->left && sent < flag->width - flag->prec - nlen - (sn != '-'))
+	while (!flag->left && sent < flag->width - flag->prec - nlen - 1)
 		*(out + sent++) = ' ';
 	if (sn)
 		*(out + sent++) = sn;
@@ -139,10 +149,9 @@ static int	int_handle(char *out, t_flag *flag, int num)
 
 static int	flag_handle(char const *form, va_list args, t_flag *flag)
 {
-	if (*form == '*' && *(form - 1) == '.')
+	if (*form == '*' && *(form - 1) == '.' && (flag->prec = va_arg(args, int)))
 	{
-		flag->prec = va_arg(args, int);
-		flag->left = 1;
+		flag->left = flag->prec < 0;
 		flag->prec = flag->prec < 0 ? 0 : flag->prec;
 	}
 	else if (*form == '*' && (flag->width = va_arg(args, int)) < 0)
@@ -150,8 +159,8 @@ static int	flag_handle(char const *form, va_list args, t_flag *flag)
 		flag->left = 1;
 		flag->width = -flag->width;
 	}
-	else if (*form >= '0' && *form <= '9' && *(form - 1) == '.')
-		return (ft_countdigits(flag->prec = ft_atoi(form)) - 1);
+	else if (ft_isdigit(*form) && *(form - 1) == '.')
+		return (ft_countdigits(flag->prec = ft_atoi(form)) + zeroes(form) - 1);
 	else if (*form >= '1' && *form <= '9')
 		return (ft_countdigits(flag->width = ft_atoi(form)) - 1);
 	else if (*form == '-' && !(flag->zero = 0))
