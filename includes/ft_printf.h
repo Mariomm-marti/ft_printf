@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/28 02:24:47 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/26 01:58:33 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/26 18:02:52 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 # include <unistd.h>
 # include <stdarg.h>
+# include <stdio.h>
 
 # pragma pack(1)
 
