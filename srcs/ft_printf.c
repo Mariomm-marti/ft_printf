@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/28 02:13:08 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/24 21:54:20 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/26 04:04:58 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,15 +90,44 @@ static int	ptr_handle(char *out, t_flag *flag, void const *ptr)
 	sent = 0;
 	if (flag->zero && flag->prec < 0)
 		flag->prec = flag->width - 2;
-	while (!flag->left &&
-			sent < flag->width - 14 - (flag->prec > 12 ? flag->prec - 12 : 0))
+	flag->prec = flag->prec > 12 ? flag->prec - 12 : 0;
+	while (!flag->left && sent < flag->width - 14 - flag->prec)
 		*(out + sent++) = ' ';
 	*(out + sent++) = '0';
 	*(out + sent++) = 'x';
 	sentptr = -1;
-	while (++sentptr < (flag->prec > 12 ? flag->prec - 12 : 0))
+	while (++sentptr < flag->prec)
 		*(out + sent++) = '0';
 	sent += convert_addr(out + sent, (unsigned long int)ptr);
+	while (flag->left && sent < flag->width)
+		*(out + sent++) = ' ';
+	return (sent);
+}
+
+static int	int_handle(char *out, t_flag *flag, int num)
+{
+	int		sent;
+	int		sentptr;
+	int		nlen;
+	char	sn;
+
+	sent = 0;
+	nlen = ft_countdigits(num);
+	sn = flag->space ? ' ' : 0;
+	sn = flag->plus ? '+' : sn;
+	if (num < 0 && (num = -num))
+		sn = '-';
+	if (flag->zero && flag->prec < 0)
+		flag->prec = flag->width;
+	flag->prec = flag->prec > nlen ? flag->prec - nlen + (sn == '-') : 0;
+	while (!flag->left && sent < flag->width - flag->prec - nlen - (sn != '-'))
+		*(out + sent++) = ' ';
+	if (sn)
+		*(out + sent++) = sn;
+	sentptr = -1;
+	while (++sentptr < flag->prec)
+		*(out + sent++) = '0';
+	sent += ft_itoa_base(out + sent, num, "0123456789");
 	while (flag->left && sent < flag->width)
 		*(out + sent++) = ' ';
 	return (sent);
@@ -145,10 +174,14 @@ static int	type_handle(char *out, char const type, va_list args, t_flag *flag)
 {
 	if (type == 'c')
 		return (char_handle(out, flag, va_arg(args, int)));
+	if (type == '%')
+		return (char_handle(out, flag, '%'));
 	if (type == 's')
 		return (string_handle(out, flag, va_arg(args, char const*)));
 	if (type == 'p')
 		return (ptr_handle(out, flag, va_arg(args, void *)));
+	if (type == 'd' || type == 'i')
+		return (int_handle(out, flag, va_arg(args, int)));
 	return (-FT_PRINTF_MAXL);
 }
 
