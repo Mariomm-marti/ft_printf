@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/28 02:13:08 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/27 19:59:49 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/27 20:09:37 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,15 +107,17 @@ static int	ptr_handle(char *out, t_flag *flag, void const *ptr)
 	if (flag->zero && flag->prec < 0)
 		flag->prec = flag->width - 2;
 	nullptr = !flag->prec && !(unsigned long int)ptr;
+	nullptr = flag->prec && !(unsigned long int)ptr ? 2 : nullptr;
 	flag->prec = flag->prec > 12 ? flag->prec - 12 : 0;
-	while (!flag->left && sent < flag->width - (nullptr ? 2 : 14) - flag->prec)
+	while (!flag->left && sent < flag->width -
+				(nullptr ? 1 + nullptr : 14) - flag->prec)
 		*(out + sent++) = ' ';
 	*(out + sent++) = '0';
 	*(out + sent++) = 'x';
 	sentptr = -1;
 	while (++sentptr < flag->prec)
 		*(out + sent++) = '0';
-	if (!nullptr)
+	if (nullptr != 1)
 		sent += convert_addr(out + sent, (unsigned long int)ptr);
 	while (flag->left && sent < flag->width)
 		*(out + sent++) = ' ';
