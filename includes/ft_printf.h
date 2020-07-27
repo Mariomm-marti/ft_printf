@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/28 02:24:47 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/27 21:17:24 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/28 00:18:50 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 # pragma pack(1)
 
-typedef struct		s_flag
+typedef struct	s_flag
 {
 	int				width;
 	int				prec;
@@ -32,12 +32,17 @@ typedef struct		s_flag
 	unsigned char	sharp : 1;
 	unsigned char	space : 1;
 	unsigned char	plus : 1;
-}					t_flag;
+}				t_flag;
 
 # pragma options align=reset
 
-int					ft_sprintf(char *out, char const *format, ...);
-int					ft_printfd(int const fd, char const *format, ...);
-int					ft_printf(char const *format, ...);
+int				char_handle(char *out, t_flag const *flag, char const chr);
+int				string_handle(char *out, t_flag const *flag, char const *str);
+int				ptr_handle(char *out, t_flag *flag, void const *ptr);
+int				int_handle(char *out, t_flag *flag, int num);
+int				sprintf_wrapper(char *out, char const *form, va_list args);
+int				ft_sprintf(char *out, char const *format, ...);
+int				ft_printfd(int const fd, char const *format, ...);
+int				ft_printf(char const *format, ...);
 
 #endif
