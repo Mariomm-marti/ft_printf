@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/28 02:13:08 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/27 20:09:37 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/27 20:25:09 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,16 +101,18 @@ static int	ptr_handle(char *out, t_flag *flag, void const *ptr)
 {
 	int				sent;
 	int				sentptr;
+	int				ptrlen;
 	unsigned char	nullptr;
 
 	sent = 0;
 	if (flag->zero && flag->prec < 0)
 		flag->prec = flag->width - 2;
+	ptrlen = ft_logn(16, (unsigned long int)ptr) + 1;
 	nullptr = !flag->prec && !(unsigned long int)ptr;
 	nullptr = flag->prec && !(unsigned long int)ptr ? 2 : nullptr;
-	flag->prec = flag->prec > 12 ? flag->prec - 12 : 0;
+	flag->prec = flag->prec > ptrlen ? flag->prec - ptrlen : 0;
 	while (!flag->left && sent < flag->width -
-				(nullptr ? 1 + nullptr : 14) - flag->prec)
+				(nullptr ? 1 + nullptr : ptrlen + 2) - flag->prec)
 		*(out + sent++) = ' ';
 	*(out + sent++) = '0';
 	*(out + sent++) = 'x';
