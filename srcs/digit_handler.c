@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/28 00:28:06 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/28 00:28:30 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/28 00:33:29 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,11 @@ int			int_handle(char *out, t_flag *flag, int num)
 	nl = ft_countdigits(num);
 	sn = sign_picker(flag, &num);
 	is_exc = !num && !flag->prec;
-	flag->prec = flag->zero && flag->prec < 0 ? flag->width : flag->prec;
+	if (flag->zero && flag->prec < 0)
+		flag->prec = flag->width - (sn > 0);
 	flag->prec = flag->prec > nl ? flag->prec - nl + (sn == '-') : 0;
 	while (!flag->left && sent < flag->width - flag->prec -
-				nl - (!flag->zero) + is_exc)
+				nl - (flag->zero) + (sn > 0) + is_exc)
 		*(out + sent++) = ' ';
 	if (sn)
 		*(out + sent++) = sn;
