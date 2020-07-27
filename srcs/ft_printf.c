@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/28 02:13:08 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/27 21:42:27 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/27 23:32:26 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,31 +128,30 @@ static int	ptr_handle(char *out, t_flag *flag, void const *ptr)
 
 static int	int_handle(char *out, t_flag *flag, int num)
 {
-	int		sent;
+	int		st;
 	int		sentptr;
 	int		nlen;
 	char	sn;
 
-	sent = 0;
-	nlen = ft_countdigits(num);
+	st = 0;
+	nlen = !num && !flag->prec ? 0 : ft_countdigits(num);
 	sn = flag->space ? ' ' : 0;
 	sn = flag->plus ? '+' : sn;
 	if (num < 0 && (num = -num))
 		sn = '-';
-	if (flag->zero && flag->prec < 0)
-		flag->prec = flag->width - 1;
+	flag->prec = flag->zero && flag->prec < 0 ? flag->width : flag->prec;
 	flag->prec = flag->prec > nlen ? flag->prec - nlen + (sn == '-') : 0;
-	while (!flag->left && sent < flag->width - flag->prec - nlen)
-		*(out + sent++) = ' ';
+	while (!flag->left && st < flag->width - flag->prec - nlen - (flag->zero))
+		*(out + st++) = ' ';
 	if (sn)
-		*(out + sent++) = sn;
+		*(out + st++) = sn;
 	sentptr = -1;
 	while (++sentptr < flag->prec)
-		*(out + sent++) = '0';
-	sent += ft_itoa_base(out + sent, num, "0123456789");
-	while (flag->left && sent < flag->width)
-		*(out + sent++) = ' ';
-	return (sent);
+		*(out + st++) = '0';
+	st += !num && !flag->prec ? 0 : ft_itoa_base(out + st, num, "0123456789");
+	while (flag->left && st < flag->width)
+		*(out + st++) = ' ';
+	return (st);
 }
 
 /*
