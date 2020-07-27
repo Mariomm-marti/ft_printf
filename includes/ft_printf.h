@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/28 02:24:47 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/26 18:02:52 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/27 21:17:24 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define FT_PRINTF_H
 
 # ifndef FT_PRINTF_MAXL
-#  define FT_PRINTF_MAXL 8192
+#  define FT_PRINTF_MAXL 16384
 # endif
 
 # include <unistd.h>
