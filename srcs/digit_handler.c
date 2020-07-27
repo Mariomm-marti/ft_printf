@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/28 00:28:06 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/28 00:33:29 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/28 00:37:43 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int			int_handle(char *out, t_flag *flag, int num)
 		flag->prec = flag->width - (sn > 0);
 	flag->prec = flag->prec > nl ? flag->prec - nl + (sn == '-') : 0;
 	while (!flag->left && sent < flag->width - flag->prec -
-				nl - (flag->zero) + (sn > 0) + is_exc)
+				nl - (flag->zero) + (sn != '-') + is_exc)
 		*(out + sent++) = ' ';
 	if (sn)
 		*(out + sent++) = sn;
