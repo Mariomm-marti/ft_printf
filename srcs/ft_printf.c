@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/28 02:13:08 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/26 18:18:39 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/27 19:59:49 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@
 **	Converts ptr literal integer _num_ to it HEX value
 */
 
-static int	convert_addr(char *out, unsigned long int num, int hexln, int prec)
+static int	convert_addr(char *out, unsigned long int num)
 {
-	if (!num && !prec)
-		return (0);
-	if (!num && (*out = '0'))
+	unsigned int const	hexln = ft_logn(16, num) + 1;
+
+	if (num == 0 && (*out = '0'))
 		return (1);
 	while (num > 0)
 	{
@@ -99,23 +99,24 @@ static int	string_handle(char *out, t_flag const *flag, char const *str)
 
 static int	ptr_handle(char *out, t_flag *flag, void const *ptr)
 {
-	int		sent;
-	int		sentptr;
-	int		hexln;
+	int				sent;
+	int				sentptr;
+	unsigned char	nullptr;
 
 	sent = 0;
-	hexln = !ptr && !flag->prec ? 0 : 12;
 	if (flag->zero && flag->prec < 0)
 		flag->prec = flag->width - 2;
-	flag->prec = flag->prec > hexln ? flag->prec - hexln : 0;
-	while (!flag->left && sent < flag->width - hexln - 2 - flag->prec)
+	nullptr = !flag->prec && !(unsigned long int)ptr;
+	flag->prec = flag->prec > 12 ? flag->prec - 12 : 0;
+	while (!flag->left && sent < flag->width - (nullptr ? 2 : 14) - flag->prec)
 		*(out + sent++) = ' ';
 	*(out + sent++) = '0';
 	*(out + sent++) = 'x';
 	sentptr = -1;
 	while (++sentptr < flag->prec)
 		*(out + sent++) = '0';
-	sent += convert_addr(out + sent, (unsigned long int)ptr, hexln, flag->prec);
+	if (!nullptr)
+		sent += convert_addr(out + sent, (unsigned long int)ptr);
 	while (flag->left && sent < flag->width)
 		*(out + sent++) = ' ';
 	return (sent);
