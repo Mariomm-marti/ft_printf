@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/28 02:13:08 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/27 23:32:26 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/27 23:43:02 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,18 +130,19 @@ static int	int_handle(char *out, t_flag *flag, int num)
 {
 	int		st;
 	int		sentptr;
-	int		nlen;
+	int		nl;
 	char	sn;
 
 	st = 0;
-	nlen = !num && !flag->prec ? 0 : ft_countdigits(num);
+	nl = !num && !flag->prec ? 0 : ft_countdigits(num);
 	sn = flag->space ? ' ' : 0;
 	sn = flag->plus ? '+' : sn;
 	if (num < 0 && (num = -num))
 		sn = '-';
 	flag->prec = flag->zero && flag->prec < 0 ? flag->width : flag->prec;
-	flag->prec = flag->prec > nlen ? flag->prec - nlen + (sn == '-') : 0;
-	while (!flag->left && st < flag->width - flag->prec - nlen - (flag->zero))
+	flag->prec = flag->prec > nl ? flag->prec - nl + (sn == '-') : flag->prec;
+	while (!flag->left && st < flag->width -
+			(flag->prec >= 0) - nl - (flag->zero))
 		*(out + st++) = ' ';
 	if (sn)
 		*(out + st++) = sn;
