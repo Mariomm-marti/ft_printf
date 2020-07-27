@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/28 02:13:08 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/27 20:25:09 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/27 20:37:46 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	convert_addr(char *out, unsigned long int num)
 		*(out-- + hexln) = "0123456789abcdef"[num % 16];
 		num /= 16;
 	}
-	return (hexln + 1);
+	return (hexln);
 }
 
 /*
