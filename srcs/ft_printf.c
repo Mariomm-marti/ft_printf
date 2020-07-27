@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/28 02:13:08 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/27 20:49:56 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/27 20:56:23 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	zeroes(char const *in)
 	unsigned int	count;
 
 	count = 0;
-	while (*(in + count + 1) == '0')
+	while (*(in + count) == '0' && ft_isdigit(*(in + count + 1)))
 		count++;
 	return (count);
 }
