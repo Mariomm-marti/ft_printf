@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/28 00:28:06 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/28 03:25:46 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/28 15:54:23 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,14 @@ static char	sign_picker(t_flag const *flag, long long int *num)
 	return (sign);
 }
 
+/*
+**	DESCRIPTION
+**		Given the arguments that should be considered for specifier d,
+**		write into _out_ the result
+**	RETURN VALUES
+**		Returns the number of characters sent to _out_
+*/
+
 int			int_handle(char *out, t_flag *flag, long long int n)
 {
 	int		sent;
@@ -58,6 +66,14 @@ int			int_handle(char *out, t_flag *flag, long long int n)
 	return (sent);
 }
 
+/*
+**	DESCRIPTION
+**		Given the arguments that should be considered for specifier u,
+**		write into _out_ the result
+**	RETURN VALUES
+**		Returns the number of characters sent to _out_
+*/
+
 int			uint_handle(char *out, t_flag *flag, unsigned long long int n)
 {
 	int		sent;
@@ -78,6 +94,14 @@ int			uint_handle(char *out, t_flag *flag, unsigned long long int n)
 	return (sent);
 }
 
+/*
+**	DESCRIPTION
+**		Given the arguments that should be considered for specifier x and X,
+**		write into _out_ the result
+**	RETURN VALUES
+**		Returns the number of characters sent to _out_
+*/
+
 int			hex_handle(char *out, t_flag *flag,
 							unsigned long long int n, char const *base)
 {
@@ -86,9 +110,9 @@ int			hex_handle(char *out, t_flag *flag,
 
 	sent = 0;
 	zero = flag->prec > ft_logn(16, n) ? flag->prec - ft_logn(16, n) - 1 : 0;
-	flag->sharp = !n && !flag->prec ? 0 : flag->sharp;
+	flag->sharp = !n ? 0 : flag->sharp;
 	if (flag->zero && flag->prec < 0)
-		zero = flag->width - ft_logn(16, n) - 1;
+		zero = flag->width - ft_logn(16, n) - 1 - (flag->sharp ? 2 : 0);
 	while (!flag->left && sent < flag->width - zero -
 			ft_logn(16, n) - !(!flag->prec && !n) - (flag->sharp ? 2 : 0))
 		*(out + sent++) = ' ';
