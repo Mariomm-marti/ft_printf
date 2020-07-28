@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/28 00:28:06 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/28 02:08:43 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/28 02:33:19 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,19 @@ int			int_handle(char *out, t_flag *flag, int n)
 {
 	int		sent;
 	int		zero;
-	char	sn;
+	char	sign;
 
 	sent = 0;
-	sn = sign_picker(flag, &n);
+	sign = sign_picker(flag, &n);
 	zero = flag->prec > ft_logn(10, n) ? flag->prec - ft_logn(10, n) - 1 : 0;
+	printf("ZERO: %d\n\n", flag->prec);
 	if (flag->zero && flag->prec < 0)
-		zero = flag->width - ft_logn(10, n) - !!sn - 1;
-	while (!flag->left && sent < flag->width - !!sn - zero - ft_logn(10, n) - 1)
+		zero = flag->width - ft_logn(10, n) - !!sign - 1;
+	while (!flag->left && sent < flag->width - !!sign - zero -
+				ft_logn(10, n) - !(!flag->prec && !n))
 		*(out + sent++) = ' ';
-	if (sn)
-		*(out + sent++) = sn;
+	if (sign)
+		*(out + sent++) = sign;
 	while (zero-- > 0)
 		*(out + sent++) = '0';
 	sent += !n && !flag->prec ? 0 : ft_itoa_base(out + sent, n, "0123456789");
