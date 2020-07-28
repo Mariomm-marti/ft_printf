@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 23:49:41 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/28 05:42:49 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/28 15:58:57 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 /*
 **	Mainly used for precision flag management, counts the number of zeros
-**	that should be skipped
+**	that should be skipped (as in '%.00009d')
 */
 
 static int	zeroes(char const *in)
@@ -97,7 +97,12 @@ static int	type_handle(char *out, char const type, va_list args, t_flag *flag)
 }
 
 /*
-**	TODO: Redo comment (sprintf_wrapper#sprintf_wrapper)
+**	DESCRIPTION
+**		Heart of the printf, manages all logic.
+**		Analyzes format used, manage all flags and specifiers, and ensures
+**		segmentation faults cannot happen
+**	RETURN VALUES
+**		Returns the number of characters sent to _out_
 */
 
 int			sprintf_wrapper(char *out, char const *form, va_list args)
