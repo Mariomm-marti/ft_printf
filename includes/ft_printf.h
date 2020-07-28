@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/28 02:24:47 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/28 02:58:27 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/28 03:24:52 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,14 @@
 
 # ifndef FT_PRINTF_MAXL
 #  define FT_PRINTF_MAXL 16384
+# endif
+
+# ifndef FT_PRINTF_L
+#  define FT_PRINTF_L "0123456789abcdef"
+# endif
+
+# ifndef FT_PRINTF_U
+#  define FT_PRINTF_U "0123456789ABCDEF"
 # endif
 
 # include <unistd.h>
@@ -41,6 +49,8 @@ int				string_handle(char *out, t_flag const *flag, char const *str);
 int				ptr_handle(char *out, t_flag *flag, void const *ptr);
 int				int_handle(char *out, t_flag *flag, long long int n);
 int				uint_handle(char *out, t_flag *flag, unsigned long long int n);
+int				hex_handle(char *out, t_flag *flag,
+								unsigned long long int n, char const *base);
 
 int				sprintf_wrapper(char *out, char const *form, va_list args);
 int				ft_sprintf(char *out, char const *format, ...);

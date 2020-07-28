@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/28 00:28:06 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/28 02:58:02 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/28 03:25:46 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,31 @@ int			uint_handle(char *out, t_flag *flag, unsigned long long int n)
 	while (zero-- > 0)
 		*(out + sent++) = '0';
 	sent += !n && !flag->prec ? 0 : ft_itoa_base(out + sent, n, "0123456789");
+	while (flag->left && sent < flag->width)
+		*(out + sent++) = ' ';
+	return (sent);
+}
+
+int			hex_handle(char *out, t_flag *flag,
+							unsigned long long int n, char const *base)
+{
+	int		sent;
+	int		zero;
+
+	sent = 0;
+	zero = flag->prec > ft_logn(16, n) ? flag->prec - ft_logn(16, n) - 1 : 0;
+	flag->sharp = !n && !flag->prec ? 0 : flag->sharp;
+	if (flag->zero && flag->prec < 0)
+		zero = flag->width - ft_logn(16, n) - 1;
+	while (!flag->left && sent < flag->width - zero -
+			ft_logn(16, n) - !(!flag->prec && !n) - (flag->sharp ? 2 : 0))
+		*(out + sent++) = ' ';
+	if (flag->sharp && (*(out + sent++) = '0'))
+		*(out + sent++) = 'x';
+	while (zero-- > 0)
+		*(out + sent++) = '0';
+	sent += !n && !flag->prec ? 0 :
+				ft_itoa_base(out + sent, n, base);
 	while (flag->left && sent < flag->width)
 		*(out + sent++) = ' ';
 	return (sent);
