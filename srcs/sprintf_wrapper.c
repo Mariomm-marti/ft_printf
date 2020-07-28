@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 23:49:41 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/28 03:24:55 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/28 03:47:26 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,23 +29,33 @@ static int	zeroes(char const *in)
 }
 
 /*
-**	Selects individual characters and apply filters so the flags are triggered
+**	Handles argument parsed width and precision
 */
 
-static int	flag_handle(char const *form, va_list args, t_flag *flag)
+static int	arg_handle(char const *form, va_list args, t_flag *flag)
 {
 	if (*form == '*' && *(form - 1) == '.')
 	{
 		flag->prec = va_arg(args, int);
 		flag->left = flag->prec < 0 ? 1 : flag->left;
-		flag->prec = flag->prec < 0 ? 0 : flag->prec;
+		flag->prec = flag->prec < 0 ? -1 : flag->prec;
 	}
 	else if (*form == '*' && (flag->width = va_arg(args, int)) < 0)
 	{
 		flag->left = 1;
 		flag->width = -flag->width;
+		flag->zero = 0;
 	}
-	else if (ft_isdigit(*form) && *(form - 1) == '.')
+	return (0);
+}
+
+/*
+**	Selects individual characters and apply filters so the flags are triggered
+*/
+
+static int	flag_handle(char const *form, t_flag *flag)
+{
+	if (ft_isdigit(*form) && *(form - 1) == '.')
 		return (ft_countdigits(flag->prec = ft_atoi(form)) + zeroes(form) - 1);
 	else if (*form >= '1' && *form <= '9')
 		return (ft_countdigits(flag->width = ft_atoi(form)) - 1);
@@ -107,8 +117,10 @@ int			sprintf_wrapper(char *out, char const *form, va_list args)
 		}
 		else if (!is_flag)
 			*(out + printc++) = *form;
-		else if (ft_strchr("*- +.#0123456789", *form))
-			form += flag_handle(form, args, &flag);
+		else if (*form == '*')
+			form += arg_handle(form, args, &flag);
+		else if (ft_strchr("- +.#0123456789", *form))
+			form += flag_handle(form, &flag);
 		else if (!(is_flag = 0))
 			printc += type_handle(out + printc, *form, args, &flag);
 		form++;
