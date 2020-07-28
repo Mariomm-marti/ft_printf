@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/28 02:24:47 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/28 00:18:50 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/28 02:58:27 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,9 @@ typedef struct	s_flag
 int				char_handle(char *out, t_flag const *flag, char const chr);
 int				string_handle(char *out, t_flag const *flag, char const *str);
 int				ptr_handle(char *out, t_flag *flag, void const *ptr);
-int				int_handle(char *out, t_flag *flag, int num);
+int				int_handle(char *out, t_flag *flag, long long int n);
+int				uint_handle(char *out, t_flag *flag, unsigned long long int n);
+
 int				sprintf_wrapper(char *out, char const *form, va_list args);
 int				ft_sprintf(char *out, char const *format, ...);
 int				ft_printfd(int const fd, char const *format, ...);

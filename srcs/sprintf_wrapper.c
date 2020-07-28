@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 23:49:41 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/28 01:13:14 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/28 02:59:04 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,16 @@ static int	type_handle(char *out, char const type, va_list args, t_flag *flag)
 {
 	if (type == 'c')
 		return (char_handle(out, flag, va_arg(args, int)));
-	if (type == '%')
-		return (char_handle(out, flag, '%'));
 	if (type == 's')
 		return (string_handle(out, flag, va_arg(args, char const*)));
 	if (type == 'p')
 		return (ptr_handle(out, flag, va_arg(args, void *)));
 	if (type == 'd' || type == 'i')
 		return (int_handle(out, flag, va_arg(args, int)));
+	if (type == 'u')
+		return (uint_handle(out, flag, va_arg(args, unsigned int)));
+	if (type == '%')
+		return (char_handle(out, flag, '%'));
 	return (-FT_PRINTF_MAXL);
 }
 

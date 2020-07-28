@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/28 00:28:06 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/28 02:33:53 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/28 02:58:02 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 **	Helps program decide the sign for the digit
 */
 
-static char	sign_picker(t_flag const *flag, int *num)
+static char	sign_picker(t_flag const *flag, long long int *num)
 {
 	char	sign;
 
@@ -34,7 +34,7 @@ static char	sign_picker(t_flag const *flag, int *num)
 	return (sign);
 }
 
-int			int_handle(char *out, t_flag *flag, int n)
+int			int_handle(char *out, t_flag *flag, long long int n)
 {
 	int		sent;
 	int		zero;
@@ -46,10 +46,30 @@ int			int_handle(char *out, t_flag *flag, int n)
 	if (flag->zero && flag->prec < 0)
 		zero = flag->width - ft_logn(10, n) - !!sign - 1;
 	while (!flag->left && sent < flag->width - !!sign - zero -
-				ft_logn(10, n) - !(!flag->prec && !n))
+			ft_logn(10, n) - !(!flag->prec && !n))
 		*(out + sent++) = ' ';
 	if (sign)
 		*(out + sent++) = sign;
+	while (zero-- > 0)
+		*(out + sent++) = '0';
+	sent += !n && !flag->prec ? 0 : ft_itoa_base(out + sent, n, "0123456789");
+	while (flag->left && sent < flag->width)
+		*(out + sent++) = ' ';
+	return (sent);
+}
+
+int			uint_handle(char *out, t_flag *flag, unsigned long long int n)
+{
+	int		sent;
+	int		zero;
+
+	sent = 0;
+	zero = flag->prec > ft_logn(10, n) ? flag->prec - ft_logn(10, n) - 1 : 0;
+	if (flag->zero && flag->prec < 0)
+		zero = flag->width - ft_logn(10, n) - 1;
+	while (!flag->left && sent < flag->width - zero -
+			ft_logn(10, n) - !(!flag->prec && !n))
+		*(out + sent++) = ' ';
 	while (zero-- > 0)
 		*(out + sent++) = '0';
 	sent += !n && !flag->prec ? 0 : ft_itoa_base(out + sent, n, "0123456789");
