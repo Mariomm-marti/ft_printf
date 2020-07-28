@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/28 00:28:06 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/28 02:33:19 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/28 02:33:53 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int			int_handle(char *out, t_flag *flag, int n)
 	sent = 0;
 	sign = sign_picker(flag, &n);
 	zero = flag->prec > ft_logn(10, n) ? flag->prec - ft_logn(10, n) - 1 : 0;
-	printf("ZERO: %d\n\n", flag->prec);
 	if (flag->zero && flag->prec < 0)
 		zero = flag->width - ft_logn(10, n) - !!sign - 1;
 	while (!flag->left && sent < flag->width - !!sign - zero -
