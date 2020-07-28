@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/28 00:28:06 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/28 15:54:23 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/28 17:38:00 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int			hex_handle(char *out, t_flag *flag,
 			ft_logn(16, n) - !(!flag->prec && !n) - (flag->sharp ? 2 : 0))
 		*(out + sent++) = ' ';
 	if (flag->sharp && (*(out + sent++) = '0'))
-		*(out + sent++) = 'x';
+		*(out + sent++) = ft_strchr(base, 'X') ? 'X' : 'x';
 	while (zero-- > 0)
 		*(out + sent++) = '0';
 	sent += !n && !flag->prec ? 0 :
