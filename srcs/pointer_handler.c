@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/28 00:02:47 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/28 02:03:37 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/28 15:56:43 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,14 @@ static int	convert_addr(char *out, unsigned long int num)
 	}
 	return (hexln + 1);
 }
+
+/*
+**	DESCRIPTION
+**		Given the arguments that should be considered for specifier p,
+**		write into _out_ the result
+**	RETURN VALUES
+**		Returns the number of characters sent to _out_
+*/
 
 int			ptr_handle(char *out, t_flag *flag, void const *ptr)
 {

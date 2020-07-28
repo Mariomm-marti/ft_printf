@@ -6,12 +6,20 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 23:54:27 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/28 00:19:07 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/28 15:59:17 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
 #include "libft/includes/libft.h"
+
+/*
+**	DESCRIPTION
+**		Given the arguments that should be considered for specifier c,
+**		write into _out_ the result
+**	RETURN VALUES
+**		Returns the number of characters sent to _out_
+*/
 
 int		char_handle(char *out, t_flag const *flag, char const chr)
 {
@@ -25,6 +33,14 @@ int		char_handle(char *out, t_flag const *flag, char const chr)
 		*(out + sent++) = ' ';
 	return (sent);
 }
+
+/*
+**	DESCRIPTION
+**		Given the arguments that should be considered for specifier s,
+**		write into _out_ the result
+**	RETURN VALUES
+**		Returns the number of characters sent to _out_
+*/
 
 int		string_handle(char *out, t_flag const *flag, char const *str)
 {
