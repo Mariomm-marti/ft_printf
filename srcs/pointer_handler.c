@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/28 00:02:47 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/28 15:56:43 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/29 20:09:19 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,13 @@
 
 static int	convert_addr(char *out, unsigned long int num)
 {
-	unsigned int const	hexln = ft_logn(16, num);
+	unsigned int	hexln;
 
 	if (num == 0 && (*out = '0'))
 		return (1);
+	hexln = ft_logn(16, num);
+	if (num == 18446744073709551615U)
+		hexln += 1;
 	while (num > 0)
 	{
 		*(out-- + hexln) = "0123456789abcdef"[num % 16];
