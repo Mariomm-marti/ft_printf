@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 23:49:41 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/29 17:31:59 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/29 17:46:22 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	arg_handle(char const *form, va_list args, t_flag *flag)
 	if (*form == '*' && *(form - 1) == '.')
 	{
 		flag->prec = va_arg(args, int);
-		flag->left = flag->prec < 0 ? 0 : flag->left;
+		flag->left = flag->prec < 0 && !flag->left ? 0 : flag->left;
 		flag->prec = flag->prec < 0 ? -1 : flag->prec;
 	}
 	else if (*form == '*' && (flag->width = va_arg(args, int)) < 0)
