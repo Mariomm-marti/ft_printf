@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/28 02:13:08 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/31 13:19:48 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/31 14:40:27 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int			ft_printf(char const *form, ...)
 	va_list	args;
 	int		printedc;
 
+	ft_bzero(out, FT_PRINTF_MAXL);
 	va_start(args, form);
 	printedc = sprintf_wrapper(out, form, args);
 	va_end(args);
