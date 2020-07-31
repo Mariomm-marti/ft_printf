@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 23:49:41 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/31 06:15:30 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/07/31 12:27:26 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,5 @@ int			sprintf_wrapper(char *out, char const *form, va_list args)
 			printc += type_handle(out + printc, *form, args, &flag);
 		form++;
 	}
-	*(out + printc) = 0;
-	return (printc);
+	return (printc >= 0 && !(*(out + printc) = 0) ? printc : -1);
 }
