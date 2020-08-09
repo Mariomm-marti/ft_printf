@@ -6,7 +6,7 @@
 #    By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/03/28 02:06:40 by mmartin-          #+#    #+#              #
-#    Updated: 2020/08/09 16:49:23 by mmartin-         ###   ########.fr        #
+#    Updated: 2020/08/09 22:23:52 by mmartin-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ NAME		= libftprintf.a
 
 $(NAME):	$(OBJS)
 			$(call ECHO_MSG,"copying and updating indexes")
-			@cp $(PATH_LIBFT)/libft.a $(PATH)/$(NAME)
+			@cp $(PATH_LIBFTA)/libft.a $(PATH)/$(NAME)
 			@ar -rcs $(PATH)/$(NAME) $(OBJS)
 
 all:		$(NAME)
