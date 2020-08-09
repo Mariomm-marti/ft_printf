@@ -6,12 +6,12 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 23:54:27 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/31 11:47:56 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/08/09 14:58:49 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
-#include "libft/includes/libft.h"
+#include <libft.h>
 
 /*
 **	DESCRIPTION

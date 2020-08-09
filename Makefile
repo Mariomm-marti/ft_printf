@@ -6,44 +6,51 @@
 #    By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/03/28 02:06:40 by mmartin-          #+#    #+#              #
-#    Updated: 2020/07/20 06:39:07 by mmartin-         ###   ########.fr        #
+#    Updated: 2020/08/09 15:17:30 by mmartin-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-PRINT_D	= srcs
-PRINT_I	= includes
-LIBFT_D	= srcs/libft
-LIBFT_I	= srcs/libft/includes
+ECHO_MSG	= @echo "\x1b[1;107;30mft_printf\x1b[0;90m $(1)...\x1b[0m"
 
-SRCS	= $(shell find $(PRINT_D) -type f -name "*.c")
-OBJS	= ${SRCS:.c=.o}
+PRINTF_D	= srcs
+PRINTF_I	= includes
 
-NAME	= libftprintf.a
+SRCS		= $(shell find $(PRINTF_D) -type f -name "*.c")
+OBJS		= $(SRCS:.c=.o)
+
+PATH		= $(shell pwd)
+PATH_LIBFT	= $(PATH)/$(PRINTF_D)/libft
+NAME		= libftprintf.a
 
 %.o : %.c
-			@clang -Wall -Werror -Wextra -I $(PRINT_I) -I $(LIBFT_I) -c $< -o $@ -O3 -march=skylake
+			@clang -Wall -Werror -Wextra -I$(PATH_LIBFT)/includes -c $< -o $@ -O3 -march=skylake
 
-$(NAME):	$(OBJS)
-			@make -s -C $(LIBFT_D) bonus
-			@echo ">>> Dependency 'libft' is ready"
-			@cp $(LIBFT_D)/libft.a $(NAME)
-			@echo ">>> Compiling 'libftprintf'"
-			@ar -rcs $(NAME) ${OBJS}
-			@ranlib $(NAME)
-			@echo ">>> Library 'libftprintf' is ready to use"
+depends:
+ifeq ($(PATH_LIBFT), $(PATH)/$(PRINTF_D)/libft)
+			$(call ECHO_MSG,"creating simple module by cloning libft")
+			@git submodule init
+			@git submodule update
+endif
+			
+
+$(NAME):	depends $(OBJS)
+			$(call ECHO_MSG,"copying and updating indexes")
+			@cp $(PATH_LIBFT)/libft.a $(PATH)/$(NAME)
+			@ar -rcs $(PATH)/$(NAME) $(OBJS)
 
 all:		$(NAME)
 
-bonus:		all
+# Deprecated, maintained for project integrity
+bonus:		$(NAME)
 
 clean:
-			@make -s -C $(LIBFT_D) clean
+			$(call ECHO_MSG,"deleting objects")
 			@rm -f $(OBJS)
 
 fclean:		clean
-			@make -s -C $(LIBFT_D) fclean
-			@rm -f $(NAME)
+			$(call ECHO_MSG,"deleting library")
+			@rm -f $(PATH)/$(NAME)
 
-re:			fclean all
+re:			fclean $(NAME)
 
-.PHONY:		all clean fclean re
+.PHONY:		depends all bonus clean fclean re

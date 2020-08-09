@@ -6,12 +6,12 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/28 00:28:06 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/28 17:50:20 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/08/09 14:58:17 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
-#include "libft/includes/libft.h"
+#include <libft.h>
 
 /*
 **	Helps program decide the sign for the digit

@@ -6,12 +6,12 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/28 00:02:47 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/29 20:09:19 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/08/09 14:59:31 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
-#include "libft/includes/libft.h"
+#include <libft.h>
 
 /*
 **	Converts ptr literal integer _num_ to it HEX value

@@ -6,12 +6,12 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 23:49:41 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/07/31 12:27:26 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/08/09 14:59:16 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
-#include "libft/includes/libft.h"
+#include <libft.h>
 
 /*
 **	Mainly used for precision flag management, counts the number of zeros
