@@ -6,7 +6,7 @@
 /*   By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/28 02:13:08 by mmartin-          #+#    #+#             */
-/*   Updated: 2020/08/09 14:58:36 by mmartin-         ###   ########.fr       */
+/*   Updated: 2020/08/11 15:55:20 by mmartin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int			ft_sprintf(char *out, char const *form, ...)
 	va_start(args, form);
 	printedc = sprintf_wrapper(out, form, args);
 	va_end(args);
+	ft_bzero(out, printedc);
 	return (printedc);
 }
 
@@ -52,6 +53,7 @@ int			ft_printfd(int const fd, char const *form, ...)
 	va_end(args);
 	if (printedc >= 0)
 		write(fd, out, printedc);
+	ft_bzero(out, printedc);
 	return (printedc);
 }
 
@@ -69,11 +71,11 @@ int			ft_printf(char const *form, ...)
 	va_list	args;
 	int		printedc;
 
-	ft_bzero(out, FT_PRINTF_MAXL);
 	va_start(args, form);
 	printedc = sprintf_wrapper(out, form, args);
 	va_end(args);
 	if (printedc >= 0)
 		write(1, out, printedc);
+	ft_bzero(out, printedc);
 	return (printedc);
 }
