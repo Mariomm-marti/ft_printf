@@ -5,43 +5,46 @@
 #                                                     +:+ +:+         +:+      #
 #    By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/03/28 02:06:40 by mmartin-          #+#    #+#              #
-#    Updated: 2020/08/09 22:23:52 by mmartin-         ###   ########.fr        #
+#    Created: 2020/01/10 15:21:05 by mmartin-          #+#    #+#              #
+#    Updated: 2020/08/26 03:38:23 by mmartin-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-ECHO_MSG	= @echo "\x1b[1;107;30mft_printf\x1b[0;90m $(1)...\x1b[0m"
+FTPTF_MSG	= @echo "\x1b[48;5;90m\x1b[38;5;15m\x1b[1m ft_printf\x1b[0m\x1b[0;90m $(1)\x1b[0m"
 
-PRINTF_D	= srcs
-PRINTF_I	= includes
+FTPTF_SRCS	= $(wildcard srcs/*.c)
+FTPTF_OBJS	= $(FTPTF_SRCS:.c=.o)
 
-SRCS		= $(shell find $(PRINTF_D) -type f -name "*.c")
-OBJS		= $(SRCS:.c=.o)
+FTPTF_OUT	:= $(CURDIR)
+FTPTF_NAME	= libftprintf.a
 
-PATH		= $(shell pwd)
-NAME		= libftprintf.a
+FTPTF_LIBFT	= "srcs/libft"
 
 %.o : %.c
-			@clang -Wall -Werror -Wextra -I$(PATH_LIBFT)/includes -c $< -o $@ -O3 -march=skylake
+					$(call FTPTF_MSG,"Compiling $@...")
+					@clang -Wall -Werror -Wextra -I$(FTPTF_LIBFT)/includes -c $< -o $@ -O3 -march=skylake
 
-$(NAME):	$(OBJS)
-			$(call ECHO_MSG,"copying and updating indexes")
-			@cp $(PATH_LIBFTA)/libft.a $(PATH)/$(NAME)
-			@ar -rcs $(PATH)/$(NAME) $(OBJS)
+$(FTPTF_NAME):	$(FTPTF_OBJS)
+					@clear
+					$(call FTPTF_MSG,"Linking objects into $(FTPTF_OUT)/$(FTPTF_NAME)")
+					@ar -rcs $(FTPTF_OUT)/$(FTPTF_NAME) $(FTPTF_OBJS)
+					$(call FTPTF_MSG,"Finished linking")
+					@(test ! -f $(FTPTF_OUT)/libft.a && \
+						make -s -C $(FTPTF_LIBFT) LIBFT_OUT=$(FTPTF_OUT)) || true
+					$(call FTPTF_MSG,"Finished compiling every dependency")
 
-all:		$(NAME)
+all:			$(FTPTF_NAME)
 
-# Deprecated, maintained for project integrity
-bonus:		$(NAME)
+bonus:			$(FTPTF_NAME)
 
 clean:
-			$(call ECHO_MSG,"deleting objects")
-			@rm -f $(OBJS)
+					$(call FTPTF_MSG,"Deleting all objects...")
+					@rm -f $(FTPTF_OBJS)
 
-fclean:		clean
-			$(call ECHO_MSG,"deleting library")
-			@rm -f $(PATH)/$(NAME)
+fclean:			clean
+					$(call FTPTF_MSG,"Deleting $(FTPTF_OUT)/$(FTPTF_NAME)...")
+					@rm -f $(FTPTF_OUT)/$(FTPTF_NAME)
 
-re:			fclean $(NAME)
+re:				fclean $(FTPTF_NAME)
 
-.PHONY:		depends all bonus clean fclean re
+.PHONY:			all bonus clean fclean re
