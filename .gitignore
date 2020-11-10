@@ -1,7 +1,3 @@
-**/tests/*
-**/segf.c
-**/.vscode
-main.c
-*.out
-**/*.o
-**/*.a
+tests/
+*.o
+*.a

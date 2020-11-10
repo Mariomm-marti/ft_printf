@@ -6,13 +6,17 @@
 #    By: mmartin- <mmartin-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/10 15:21:05 by mmartin-          #+#    #+#              #
-#    Updated: 2020/09/01 17:58:39 by mmartin-         ###   ########.fr        #
+#    Updated: 2020/11/10 20:53:08 by mmartin-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 FTPTF_MSG	= @echo "\x1b[48;5;90m\x1b[38;5;15m\x1b[1m ft_printf\x1b[0m\x1b[0;90m $(1)\x1b[0m"
 
-FTPTF_SRCS	= $(wildcard srcs/*)
+FTPTF_SRCS	= srcs/ft_printf.c \
+			  srcs/sprintf_wrapper.c \
+			  srcs/text_handler.c \
+			  srcs/digit_handler.c \
+			  srcs/pointer_handler.c
 FTPTF_OBJS	= $(FTPTF_SRCS:.c=.o)
 
 FTPTF_OUT	= "."
