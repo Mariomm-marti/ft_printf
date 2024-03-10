@@ -1,4 +1,4 @@
-# ft_printf - 42 third programming project
+# ft_printf
 This project was a huge rework of my way of thinking about coding. I have done
 several versions of this project but none of them completely functional, as I didn't like the way of doing it.
 
